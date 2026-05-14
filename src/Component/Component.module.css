@@ -1,0 +1,53 @@
+.hoverText {
+  display: inline-block;
+
+  /* BASE STYLE (already bold + visible) */
+  font-weight: 700;
+  color: rgb(199, 210, 254);
+
+  /* smooth transitions */
+  transition:
+    transform 0.35s ease,
+    color 0.35s ease,
+    text-shadow 0.35s ease;
+}
+
+/* HOVER (main effect) */
+.hoverText:hover {
+  transform: scale(1.6) translateY(-6px);
+  font-weight: 900;
+  color: rgb(238, 242, 255);
+
+  /* strong glow */
+  text-shadow:
+    0 0 8px rgba(99, 102, 241, 0.9),
+    0 0 20px rgba(99, 102, 241, 0.7),
+    0 0 40px rgba(99, 102, 241, 0.5);
+}
+
+/* RIGHT NEIGHBOR EFFECT */
+.hoverText:hover + .hoverText {
+  transform: scale(1.15) translateY(-3px);
+  font-weight: 600;
+  color: rgb(199, 210, 254);
+}
+
+/* SECOND RIGHT NEIGHBOR */
+.hoverText:hover + .hoverText + .hoverText {
+  transform: scale(1.05);
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* LEFT SIDE EFFECTS */
+.hoverText:has(+ .hoverText:hover) {
+  transform: scale(1.15) translateY(-3px);
+  font-weight: 600;
+  color: rgb(199, 210, 254);
+}
+
+.hoverText:has(+ .hoverText + .hoverText:hover) {
+  transform: scale(1.05);
+  font-weight: 400;
+  opacity: 0.8;
+}
