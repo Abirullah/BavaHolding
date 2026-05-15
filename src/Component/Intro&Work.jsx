@@ -328,71 +328,69 @@ function IntroWorkContent({
 
 export function IntroTransition({ scrollYProgress }) {
 
-  // FULL SCREEN REVEAL
-  const shellOpacity = useTransform(
-    scrollYProgress,
-    [0.22, 0.34],
-    [1, 1],
-    { clamp: true }
-  );
 
-  const shellScale = useTransform(
-     scrollYProgress,
-    [0.34, 0.68],
-    [0.12, 1],
-    { clamp: true }
-  );
+const shellOpacity = useTransform(
+  scrollYProgress,
+  [0.22, 0.34, 0.90, 1.0],  
+  [1, 1, 1, 0],
+  { clamp: true }
+);
 
-  const shellY = useTransform(
-    scrollYProgress,
-    [0.34, 0.68],
-    [300, 0],
-    { clamp: true }
-  );
+const shellScale = useTransform(
+  scrollYProgress,
+  [0.34, 0.60],             
+  [0.12, 1],
+  { clamp: true }
+);
 
-  const shellRotate = useTransform(
-    scrollYProgress,
-    [0.34, 0.54, 0.68],
-    [0, -1.2, 0],
-    { clamp: true }
-  );
+const shellY = useTransform(
+  scrollYProgress,
+  [0.34, 0.60],
+  [300, 0],
+  { clamp: true }
+);
 
-  const shellRadius = useTransform(
-    scrollYProgress,
-    [0.34, 0.68],
-    ["999px", "0px"],
-    { clamp: true }
-  );
+const shellRotate = useTransform(
+  scrollYProgress,
+  [0.34, 0.47, 0.60],
+  [0, -1.2, 0],
+  { clamp: true }
+);
 
-  // ARTWORK DISAPPEARS COMPLETELY
-  const artOpacity = useTransform(
-    scrollYProgress,
-    [0.34, 0.52],
-    [1, 0],
-    { clamp: true }
-  );
+const shellRadius = useTransform(
+  scrollYProgress,
+  [0.34, 0.60],
+  ["999px", "0px"],
+  { clamp: true }
+);
 
-  // CONTENT APPEARS FULLY
-  const contentOpacity = useTransform(
-    scrollYProgress,
-    [0.48, 0.68],
-    [0, 1],
-    { clamp: true }
-  );
+const artOpacity = useTransform(
+  scrollYProgress,
+  [0.34, 0.46],
+  [1, 0],
+  { clamp: true }
+);
 
-  const contentY = useTransform(
-    scrollYProgress,
-    [0.48, 0.68],
-    [60, 0],
-    { clamp: true }
-  );
+const contentOpacity = useTransform(
+  scrollYProgress,
+  [0.44, 0.60],
+  [0, 1],
+  { clamp: true }
+);
 
-  const backdropOpacity = useTransform(
-    scrollYProgress,
-    [0.22, 0.34],
-    [0, 1],
-    { clamp: true }
-  );
+const contentY = useTransform(
+  scrollYProgress,
+  [0.44, 0.60],
+  [60, 0],
+  { clamp: true }
+);
+
+const backdropOpacity = useTransform(
+  scrollYProgress,
+  [0.22, 0.34],
+  [0, 1],
+  { clamp: true }
+);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[35] ">
