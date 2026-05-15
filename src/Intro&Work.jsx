@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion, useTransform } from "framer-motion";
 
 const tags = [
@@ -24,7 +23,7 @@ const textureStyle = {
     "radial-gradient(rgba(255,255,255,0.05) 0.7px, transparent 0.7px), radial-gradient(rgba(255,255,255,0.03) 0.7px, transparent 0.7px)",
   backgroundPosition: "0 0, 10px 10px",
   backgroundSize: "18px 18px",
-  opacity: 0.16,
+  opacity: 0.12,
 };
 
 function IntroArtwork() {
@@ -48,32 +47,6 @@ function IntroArtwork() {
             "radial-gradient(ellipse at 30% 20%, rgba(60,90,30,0.45) 0%, transparent 55%), radial-gradient(ellipse at 70% 70%, rgba(80,50,10,0.3) 0%, transparent 50%)",
         }}
       />
-
-      <svg
-        viewBox="0 0 180 220"
-        width="180"
-        height="220"
-        style={{ position: "relative", zIndex: 1, opacity: 0.92 }}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <ellipse cx="90" cy="70" rx="38" ry="40" fill="#ccc" stroke="#888" strokeWidth="2" />
-        <ellipse cx="90" cy="68" rx="26" ry="27" fill="#b07840" opacity="0.85" />
-        <ellipse cx="82" cy="62" rx="7" ry="5" fill="white" opacity="0.25" />
-        <rect x="62" y="106" width="56" height="68" rx="16" fill="#ddd" stroke="#999" strokeWidth="1.5" />
-        <rect x="76" y="118" width="28" height="18" rx="5" fill="#bbb" />
-        <circle cx="90" cy="127" r="5" fill="#888" />
-        <rect x="38" y="110" width="26" height="14" rx="7" fill="#ddd" stroke="#aaa" strokeWidth="1" transform="rotate(18,51,117)" />
-        <circle cx="36" cy="130" r="9" fill="#ccc" stroke="#aaa" strokeWidth="1" />
-        <rect x="116" y="110" width="26" height="14" rx="7" fill="#ddd" stroke="#aaa" strokeWidth="1" transform="rotate(-18,129,117)" />
-        <circle cx="144" cy="130" r="9" fill="#ccc" stroke="#aaa" strokeWidth="1" />
-        <rect x="68" y="170" width="20" height="36" rx="10" fill="#ccc" stroke="#aaa" strokeWidth="1" />
-        <rect x="92" y="170" width="20" height="36" rx="10" fill="#ccc" stroke="#aaa" strokeWidth="1" />
-        <ellipse cx="78" cy="206" rx="13" ry="7" fill="#888" />
-        <ellipse cx="102" cy="206" rx="13" ry="7" fill="#888" />
-        <rect x="62" y="130" width="8" height="3" rx="1.5" fill="#c8602a" />
-        <rect x="110" y="130" width="8" height="3" rx="1.5" fill="#c8602a" />
-      </svg>
 
       {[
         [20, 40],
@@ -102,7 +75,12 @@ function IntroArtwork() {
   );
 }
 
-function TagPills({ activeTag, setActiveTag, interactive = true, compact = false }) {
+function TagPills({
+  activeTag,
+  setActiveTag,
+  interactive = true,
+  compact = false,
+}) {
   return (
     <div className="mt-4 flex flex-wrap justify-center gap-3">
       {tags.map((tag, index) => {
@@ -112,12 +90,18 @@ function TagPills({ activeTag, setActiveTag, interactive = true, compact = false
           <button
             key={tag}
             type="button"
-            onClick={interactive ? () => setActiveTag(isActive ? null : index) : undefined}
+            onClick={
+              interactive
+                ? () => setActiveTag(isActive ? null : index)
+                : undefined
+            }
             className="rounded-full border text-sm font-medium transition-all duration-300"
             style={{
               ...sectionFont,
               padding: compact ? "0.45rem 1rem" : "0.55rem 1.25rem",
-              background: isActive ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.04)",
+              background: isActive
+                ? "rgba(255,255,255,0.12)"
+                : "rgba(255,255,255,0.04)",
               border: isActive
                 ? "1px solid rgba(255,255,255,0.4)"
                 : "1px solid rgba(255,255,255,0.18)",
@@ -125,26 +109,6 @@ function TagPills({ activeTag, setActiveTag, interactive = true, compact = false
               letterSpacing: "0.01em",
               cursor: interactive ? "pointer" : "default",
             }}
-            onMouseEnter={
-              interactive
-                ? (event) => {
-                    if (!isActive) {
-                      event.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                      event.currentTarget.style.color = "#ddd";
-                    }
-                  }
-                : undefined
-            }
-            onMouseLeave={
-              interactive
-                ? (event) => {
-                    if (!isActive) {
-                      event.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                      event.currentTarget.style.color = "#aaa";
-                    }
-                  }
-                : undefined
-            }
           >
             {tag}
           </button>
@@ -154,11 +118,26 @@ function TagPills({ activeTag, setActiveTag, interactive = true, compact = false
   );
 }
 
-function IntroHeader({ activeTag, setActiveTag, interactive = true, compact = false }) {
+function IntroHeader({
+  activeTag,
+  setActiveTag,
+  interactive = true,
+  compact = false,
+}) {
   return (
-    <section className={compact ? "px-5 pb-10 pt-24 text-center md:px-8" : "px-6 pb-16 pt-24 text-center"}>
+    <section
+      className={
+        compact
+          ? "px-5 pb-6 pt-10 text-center md:px-8 md:pb-8 md:pt-14"
+          : "px-6 pb-16 pt-24 text-center" 
+      }
+    >
       <h1
-        className={compact ? "mb-5 text-4xl font-light leading-none text-white md:text-6xl" : "mb-6 text-5xl font-light leading-none text-white md:text-7xl"}
+        className={
+          compact
+            ? "mb-4 text-3xl font-light leading-none text-white md:text-5xl"
+            : "mb-6 text-5xl font-light leading-none text-white md:text-7xl"
+        }
         style={{
           ...sectionFont,
           letterSpacing: "-0.02em",
@@ -175,7 +154,7 @@ function IntroHeader({ activeTag, setActiveTag, interactive = true, compact = fa
         >
           ARE
         </span>{" "}
-        &amp; WHAT WE{" "}
+        & WHAT WE{" "}
         <span
           className="font-black"
           style={{
@@ -189,28 +168,35 @@ function IntroHeader({ activeTag, setActiveTag, interactive = true, compact = fa
       </h1>
 
       <p
-        className={compact ? "mx-auto max-w-2xl text-sm leading-relaxed text-gray-400 md:text-base" : "mx-auto max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg"}
+        className={
+          compact
+            ? "mx-auto max-w-5xl text-xs leading-6 text-gray-400 md:text-sm"
+            : "mx-auto max-w-5xl text-base leading-relaxed text-gray-400 md:text-lg"
+        }
         style={sectionFont}
       >
-        A cutting-edge AI technology company dedicated to revolutionizing web
-        and app development through intelligent automation. We create
-        innovative, scalable digital products faster and smarter by harnessing
-        the power of artificial intelligence.
+        A cutting-edge AI technology company dedicated to revolutionizing web and app development through intelligent automation. We create innovative, scalable digital products faster and smarter by harnessing the power of artificial intelligence.
       </p>
 
-      <div className={compact ? "mb-8 mt-10" : "mb-10 mt-14"}>
+      <div className={compact ? "mb-6 mt-6" : "mb-10 mt-14"}>
         <span
-          className={compact ? "text-base font-semibold tracking-wide text-white md:text-lg" : "text-lg font-semibold tracking-wide text-white md:text-xl"}
+          className={
+            compact
+              ? "text-sm font-semibold tracking-wide text-white md:text-base"
+              : "text-lg font-semibold tracking-wide text-white md:text-xl"
+          }
           style={{ ...sectionFont, letterSpacing: "0.04em" }}
         >
           Over 20+ AI-powered projects delivered
         </span>
+
         <div
           className="mx-auto mt-3"
           style={{
             width: 60,
             height: 1,
-            background: "linear-gradient(90deg, transparent, #555, transparent)",
+            background:
+              "linear-gradient(90deg, transparent, #555, transparent)",
           }}
         />
       </div>
@@ -227,13 +213,19 @@ function IntroHeader({ activeTag, setActiveTag, interactive = true, compact = fa
 
 function AboutSection({ compact = false }) {
   return (
-    <section className={compact ? "px-5 pb-14 md:px-8" : "px-6 pb-24"}>
-      <div className={compact ? "grid gap-5 md:grid-cols-[300px_minmax(0,1fr)] md:items-stretch" : "flex flex-col items-stretch gap-8 md:flex-row"}>
+    <section className={compact ? "px-5 pb-8 md:px-8" : "px-6 pb-24"}>
+      <div
+        className={
+          compact
+            ? "grid gap-4 md:grid-cols-[250px_minmax(0,1fr)] md:items-stretch"
+            : "flex flex-col items-stretch gap-8 md:flex-row"
+        }
+      >
         <div
           className="overflow-hidden rounded-2xl"
           style={{
             width: "100%",
-            minHeight: compact ? 280 : 320,
+            minHeight: compact ? 220 : 320,
             maxWidth: compact ? "100%" : 380,
             background: "#161616",
             border: "1px solid rgba(255,255,255,0.07)",
@@ -244,7 +236,11 @@ function AboutSection({ compact = false }) {
         </div>
 
         <div
-          className={compact ? "flex flex-col justify-center rounded-2xl p-6 md:p-7" : "flex flex-1 flex-col justify-center rounded-2xl p-8"}
+          className={
+            compact
+              ? "flex flex-col justify-center rounded-2xl p-5 md:p-6"
+              : "flex flex-1 flex-col justify-center rounded-2xl p-8"
+          }
           style={{
             background: "rgba(255,255,255,0.045)",
             border: "1px solid rgba(255,255,255,0.09)",
@@ -252,21 +248,33 @@ function AboutSection({ compact = false }) {
           }}
         >
           <h2
-            className={compact ? "mb-4 text-xl font-bold text-white md:text-2xl" : "mb-5 text-2xl font-bold text-white"}
+            className={
+              compact
+                ? "mb-4 text-xl font-bold text-white md:text-2xl"
+                : "mb-5 text-2xl font-bold text-white"
+            }
             style={{ ...sectionFont, letterSpacing: "-0.01em" }}
           >
             About Us
           </h2>
 
           <p
-            className={compact ? "mb-4 text-sm leading-7 text-gray-400" : "mb-4 text-sm leading-relaxed text-gray-400"}
+            className={
+              compact
+                ? "mb-3 text-xs leading-6 text-gray-400 md:text-sm"
+                : "mb-4 text-sm leading-relaxed text-gray-400"
+            }
             style={sectionFont}
           >
             {aboutText1}
           </p>
 
           <p
-            className={compact ? "text-sm leading-7 text-gray-500" : "text-sm leading-relaxed text-gray-500"}
+            className={
+              compact
+                ? "text-xs leading-6 text-gray-500 md:text-sm"
+                : "text-sm leading-relaxed text-gray-500"
+            }
             style={sectionFont}
           >
             {aboutText2}
@@ -291,10 +299,19 @@ function AboutSection({ compact = false }) {
   );
 }
 
-function IntroWorkContent({ activeTag, setActiveTag, interactive = true, compact = false }) {
+function IntroWorkContent({
+  activeTag,
+  setActiveTag,
+  interactive = true,
+  compact = false,
+}) {
   return (
     <div
-      className={compact ? "mx-auto w-full max-w-6xl" : "mx-auto w-full max-w-5xl"}
+      className={
+        compact
+          ? "mx-auto w-full max-w-6xl"
+          : "mx-auto w-full max-w-5xl"
+      }
       style={sectionFont}
     >
       <IntroHeader
@@ -303,31 +320,87 @@ function IntroWorkContent({ activeTag, setActiveTag, interactive = true, compact
         interactive={interactive}
         compact={compact}
       />
+
       <AboutSection compact={compact} />
     </div>
   );
 }
 
 export function IntroTransition({ scrollYProgress }) {
-  const shellOpacity = useTransform(scrollYProgress, [0.24, 0.34], [0, 1]);
-  const shellScale = useTransform(scrollYProgress, [0.34, 0.78], [0.14, 1]);
-  const shellY = useTransform(scrollYProgress, [0.34, 0.78], [310, 0]);
-  const shellRotate = useTransform(scrollYProgress, [0.34, 0.58, 0.78], [0, -1.5, 0]);
-  const shellRadius = useTransform(scrollYProgress, [0.34, 0.58, 0.78], ["999px", "48px", "0px"]);
-  const artOpacity = useTransform(scrollYProgress, [0.34, 0.58, 0.82], [1, 0.42, 0.14]);
-  const contentOpacity = useTransform(scrollYProgress, [0.54, 0.78], [0, 1]);
-  const contentY = useTransform(scrollYProgress, [0.54, 0.78], [42, 0]);
-  const overlayOpacity = useTransform(scrollYProgress, [0.88, 0.98], [1, 0]);
-  const backdropOpacity = useTransform(scrollYProgress, [0.24, 0.5], [0, 1]);
+
+  // FULL SCREEN REVEAL
+  const shellOpacity = useTransform(
+    scrollYProgress,
+    [0.22, 0.34],
+    [1, 1],
+    { clamp: true }
+  );
+
+  const shellScale = useTransform(
+     scrollYProgress,
+    [0.34, 0.68],
+    [0.12, 1],
+    { clamp: true }
+  );
+
+  const shellY = useTransform(
+    scrollYProgress,
+    [0.34, 0.68],
+    [300, 0],
+    { clamp: true }
+  );
+
+  const shellRotate = useTransform(
+    scrollYProgress,
+    [0.34, 0.54, 0.68],
+    [0, -1.2, 0],
+    { clamp: true }
+  );
+
+  const shellRadius = useTransform(
+    scrollYProgress,
+    [0.34, 0.68],
+    ["999px", "0px"],
+    { clamp: true }
+  );
+
+  // ARTWORK DISAPPEARS COMPLETELY
+  const artOpacity = useTransform(
+    scrollYProgress,
+    [0.34, 0.52],
+    [1, 0],
+    { clamp: true }
+  );
+
+  // CONTENT APPEARS FULLY
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0.48, 0.68],
+    [0, 1],
+    { clamp: true }
+  );
+
+  const contentY = useTransform(
+    scrollYProgress,
+    [0.48, 0.68],
+    [60, 0],
+    { clamp: true }
+  );
+
+  const backdropOpacity = useTransform(
+    scrollYProgress,
+    [0.22, 0.34],
+    [0, 1],
+    { clamp: true }
+  );
 
   return (
-    <motion.div
-      style={{ opacity: overlayOpacity }}
-      className="pointer-events-none absolute inset-0 z-[35] overflow-hidden"
-    >
+    <div className="pointer-events-none fixed inset-0 z-[35] ">
+
+      {/* FULL SOLID BACKGROUND */}
       <motion.div
-        className="absolute inset-0 bg-[#0a0a0a]"
         style={{ opacity: backdropOpacity }}
+        className="absolute inset-0 bg-black"
       />
 
       <motion.div
@@ -344,17 +417,27 @@ export function IntroTransition({ scrollYProgress }) {
       >
         <div className="absolute inset-0" style={textureStyle} />
 
-        <motion.div style={{ opacity: artOpacity }} className="absolute inset-0">
+        {/* INTRO ART */}
+        <motion.div
+          style={{ opacity: artOpacity }}
+          className="absolute inset-0"
+        >
           <IntroArtwork />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.15),transparent_35%,rgba(0,0,0,0.62))]" />
+
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.15),transparent_35%,rgba(0,0,0,0.7))]" />
         </motion.div>
 
+        {/* FINAL CONTENT */}
         <motion.div
-          style={{ opacity: contentOpacity, y: contentY }}
+          style={{
+            opacity: contentOpacity,
+            y: contentY,
+          }}
           className="absolute inset-0 overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0.18),rgba(10,10,10,0.84)_30%,#0a0a0a_100%)]" />
-          <div className="relative h-full overflow-hidden">
+          <div className="absolute inset-0 bg-[#0a0a0a]" />
+
+          <div className="relative flex h-full items-center">
             <IntroWorkContent
               activeTag={null}
               setActiveTag={() => {}}
@@ -364,27 +447,6 @@ export function IntroTransition({ scrollYProgress }) {
           </div>
         </motion.div>
       </motion.div>
-    </motion.div>
-  );
-}
-
-export default function IntroWork() {
-  const [activeTag, setActiveTag] = useState(null);
-
-  return (
-    <section
-      className="relative -mt-[100vh] min-h-screen overflow-hidden bg-[#0a0a0a] pt-[100vh]"
-      style={sectionFont}
-    >
-      <div className="absolute inset-0 pointer-events-none z-0" style={textureStyle} />
-
-      <div className="relative z-10">
-        <IntroWorkContent
-          activeTag={activeTag}
-          setActiveTag={setActiveTag}
-          interactive
-        />
-      </div>
-    </section>
+    </div>
   );
 }
