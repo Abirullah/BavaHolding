@@ -1,4 +1,4 @@
-import React from "react";
+import AnimatedHeading from "./AnimatedHeading";
 import ButtonWrapper from "./Button";
 import Card from "./Card";
 import Logomarquee from "./UltimateScroller";
@@ -39,12 +39,15 @@ function OurFDevelopment() {
       <div className="relative max-w-7xl mx-auto px-6 py-24 text-white flex flex-col items-center">
 
         {/* Heading */}
-        <h1 className="lg:text-5xl md:text-4xl text-3xl font-bold mb-10 text-center leading-tight">
+        <AnimatedHeading
+          as="h1"
+          className="lg:text-5xl md:text-4xl text-3xl font-bold mb-10 text-center leading-tight"
+        >
           Test and refine concepts while exploring product features through
           <span className="bg-gradient-to-r from-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">
             {" "}MVP development
           </span>
-        </h1>
+        </AnimatedHeading>
 
         {/* Paragraph */}
         <p className="text-lg text-center text-gray-400 leading-relaxed max-w-5xl">
@@ -69,13 +72,13 @@ function OurFDevelopment() {
         </div>
 
       </div>
-    <div className="relative max-w-7xl mx-auto px-6 py-20 text-white flex flex-col items-center">        <h1 className="lg:text-5xl md:text-4xl text-3xl font-bold mb-10 text-center leading-tight">
+    <div className="relative max-w-7xl mx-auto px-6 py-20 text-white flex flex-col items-center">        <AnimatedHeading as="h1" className="lg:text-5xl md:text-4xl text-3xl font-bold mb-10 text-center leading-tight">
           Our
           <span className="bg-gradient-to-r from-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">
             {" "}MVP development {" "}
           </span>
           technologies
-        </h1>
+        </AnimatedHeading>
 
  <p className="text-lg text-center text-gray-400 leading-relaxed max-w-4xl">     
     

@@ -1,7 +1,3 @@
-// npx shadcn@latest add @react-bits/SplashCursor-JS-TW
-
-
-
 'use client';
 import { useEffect, useRef } from 'react';
 

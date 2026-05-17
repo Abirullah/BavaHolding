@@ -1,70 +1,54 @@
-import { useRef } from "react";
-import { useScroll } from "framer-motion";
 import "./App.css";
 
-import WaterDropGrid from "./Component/UnderHersection";
-import BubbleTextGenerator from "./Component/BubbleText";
-import Cursor from "./Component/MyCursere";
-import HeroLogo from "./HeroLogo";
 import { IntroTransition } from "./Component/Intro&Work";
-import OurFDevelopment from "./Component/OurFDevelopment";
-import { Projects } from "./UnusedComponent/AmazingForProjects";
-import SplashCursor from "./Component/SplishCurserAffect";
-import OurProjects from "./Component/OurProjects";
-import Button from "./Component/Button";
+import OurFDevelopment from "./Component/OurDevelopment";
 import ProjectsReveal from "./Component/ProjectRenevel";
+import TeamReview from "./Component/ForTeamReview";
+import AIUpdatesBanner from "./Component/LastGenerallSection";
+import Footer from "./Component/Footer";
+import GooeyNav from "./Component/NavbarAnimination";
+import {
+  NAV_ITEMS,
+  ROUTES,
+  SECTION_IDS,
+  navigateToPath,
+  navigateToSection,
+} from "./navigation";
 
 function App() {
-  const heroRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end end"],
-  });
-
   return (
-    <div>
-      <div className="bg-black relative">
-        {/* <Cursor /> */}
+    <div id={SECTION_IDS.home} className="bg-black text-white">
+      <GooeyNav
+        items={NAV_ITEMS}
+        particleCount={15}
+        particleDistances={[90, 10]}
+        particleR={100}
+        initialActiveIndex={0}
+        animationTime={600}
+        timeVariance={300}
+        colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+        onItemSelect={(item) => navigateToSection(item.sectionId)}
+        onLogoClick={() => navigateToSection(SECTION_IDS.home)}
+        ctaLabel="Contact"
+        onCtaClick={() => navigateToPath(ROUTES.contact)}
+      />
+      <div className="bg-black">
+        <IntroTransition />
 
-        {/* <SplashCursor
-          DENSITY_DISSIPATION={3.5}
-          VELOCITY_DISSIPATION={2}
-          PRESSURE={0.1}
-          CURL={3}
-          SPLAT_RADIUS={0.2}
-          SPLAT_FORCE={6000}
-          COLOR_UPDATE_SPEED={10}
-          SHADING
-          RAINBOW_MODE={false}
-          COLOR="#A855F7"
-        />
-        */}
-
-        {/* SCROLL ANIMATION AREA */}
-        <section ref={heroRef} className="relative h-[600vh]">
-          <div className="sticky top-0 h-screen overflow-hidden isolate">
-            <WaterDropGrid />
-
-            <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
-              <BubbleTextGenerator />
-            </div>
-
-            <HeroLogo scrollYProgress={scrollYProgress} />
-
-            <IntroTransition scrollYProgress={scrollYProgress} />
-          </div>
-        </section>
-
-        {/* FINAL SECTION THAT STAYS */}
-        <section className="relative z-30 pb-10 min-h-screen bg-[#0a0a0a]">
+        <section
+          id={SECTION_IDS.services}
+          className="relative z-10 min-h-screen scroll-mt-28 bg-[#0a0a0a] pb-10"
+        >
           <OurFDevelopment />
         </section>
       </div>
 
-      {/* fully independent on the first div */}
-      
-      <ProjectsReveal />
+      <section id={SECTION_IDS.caseStudy} className="scroll-mt-28">
+        <ProjectsReveal />
+      </section>
+      <TeamReview />
+      <AIUpdatesBanner />
+      <Footer />
     </div>
   );
 }

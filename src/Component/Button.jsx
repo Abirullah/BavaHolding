@@ -1,11 +1,22 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 
-const ButtonWrapper = () => {
-  return <SpotlightButton />;
+const SIZE_STYLES = {
+  default: "px-8 py-3 text-sm tracking-[0.15em]",
+  compact: "px-5 py-2.5 text-xs tracking-[0.12em]",
 };
 
-const SpotlightButton = () => {
+const ButtonWrapper = (props) => {
+  return <SpotlightButton {...props} />;
+};
+
+const SpotlightButton = ({
+  label = "LEARN MORE",
+  onClick,
+  type = "button",
+  className = "",
+  size = "default",
+}) => {
   const btnRef = useRef(null);
   const spanRef = useRef(null);
 
@@ -55,26 +66,14 @@ const SpotlightButton = () => {
   return (
     <motion.button
       ref={btnRef}
+      type={type}
+      onClick={onClick}
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
-      className="
-        relative
-        overflow-hidden
-        rounded-xl
-        border
-        border-white/10
-        bg-white/5
-        px-15
-        py-3
-        text-sm
-        font-semibold
-        tracking-[0.15em]
-        text-white
-        backdrop-blur-md
-      "
+      className={`relative overflow-hidden rounded-xl border border-white/10 bg-white/5 font-semibold text-white backdrop-blur-md whitespace-nowrap ${SIZE_STYLES[size] ?? SIZE_STYLES.default} ${className}`}
     >
       <span className="relative z-10 mix-blend-difference">
-        LEARN MORE
+        {label}
       </span>
 
       <span

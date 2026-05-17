@@ -25,7 +25,23 @@ const WaterDropGrid = () => {
   }, []);
 
   return (
-    <div className="w-screen h-screen bg-slate-900 overflow-hidden">
+   <div
+  className="w-screen h-screen overflow-hidden relative"
+  style={{
+    background: `
+      radial-gradient(circle at top left, rgba(120,119,198,0.18), transparent 30%),
+      radial-gradient(circle at top right, rgba(0,212,255,0.14), transparent 28%),
+      radial-gradient(circle at bottom left, rgba(255,0,128,0.12), transparent 30%),
+      linear-gradient(
+        135deg,
+        #020617 0%,
+        #0f172a 35%,
+        #111827 65%,
+        #020617 100%
+      )
+    `,
+  }}
+>
       <DotGrid columns={grid.columns} rows={grid.rows} />
     </div>
   );
@@ -66,9 +82,14 @@ const DotGrid = ({ columns, rows }) => {
           data-index={index}
         >
           <div
-            className="dot-point w-2 h-2 rounded-full bg-gradient-to-b from-slate-700 to-slate-300 opacity-50"
-            data-index={index}
-          />
+  className="dot-point w-2 h-2 rounded-full opacity-40"
+  data-index={index}
+  style={{
+    background:
+      "linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(148,163,184,0.35))",
+    boxShadow: "0 0 10px rgba(255,255,255,0.15)",
+  }}
+/>
         </div>
       );
 

@@ -9,16 +9,16 @@ import {
   FiLayers,
   FiLayout,
 } from "react-icons/fi";
-
-// import all the pic from projects folder in the public 
-import AiTutImg from '../../public/Projects/AI TURTOR.png'
-import Answarly from '../../public/Projects/Ansarly.jpg'
-import Chatterly from '../../public/Projects/ChatterlyAI.png'
-import QHello from '../../public/Projects/QHello.png'
-import Questhunder from '../../public/Projects/Questhunder.png'
-import SportEcom from '../../public/Projects/SportsEcomress.png'
-import VirtualWorld from '../../public/Projects/Virtual World.png'
-import YourFrontDeskAi from '../../public/Projects/YourFrontBeskAI.jpg'
+import AnimatedHeading from "./AnimatedHeading";
+import Button from "./Button";
+import AiTutImg from "../../public/Projects/AI TURTOR.png";
+import Answarly from "../../public/Projects/Ansarly.jpg";
+import Chatterly from "../../public/Projects/ChatterlyAI.png";
+import QHello from "../../public/Projects/QHello.png";
+import Questhunder from "../../public/Projects/Questhunder.png";
+import SportEcom from "../../public/Projects/SportsEcomress.png";
+import VirtualWorld from "../../public/Projects/Virtual World.png";
+import YourFrontDeskAi from "../../public/Projects/YourFrontBeskAI.jpg";
 
 const DEFAULT_ITEMS = [
   {
@@ -183,7 +183,7 @@ function ProjectCard({ item, index, itemWidth, trackItemOffset, x }) {
 
   return (
     <motion.article
-      className="relative h-full shrink-0 overflow-hidden rounded-[28px] border border-white/10"
+      className="relative h-full min-h-[560px] shrink-0 overflow-hidden rounded-[28px] border border-white/10 md:min-h-[620px] lg:min-h-0"
       style={{
         width: itemWidth,
         rotateY,
@@ -209,22 +209,16 @@ function ProjectCard({ item, index, itemWidth, trackItemOffset, x }) {
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(125deg,rgba(255,255,255,0.015),transparent_28%,transparent_72%,rgba(255,255,255,0.008))]" />
 
-      {/* Card inner layout */}
-      <div className="relative grid h-full grid-cols-1 md:grid-cols-2">
-
-        {/* ── LEFT SIDE — Text content ── */}
-        <div className="flex flex-col justify-between p-8 md:p-10">
-
-          {/* Top: icon + tags */}
+      <div className="relative grid h-full grid-cols-1 lg:grid-cols-2">
+        <div className="flex flex-col justify-between p-6 sm:p-8 md:p-10">
           <div>
-            <div className="flex items-center gap-3 mb-8">
+            <div className="mb-8 flex items-center gap-3">
               <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
                 <Icon className="h-5 w-5 text-white" />
               </span>
             </div>
 
-            {/* Tags row */}
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="mb-6 flex flex-wrap gap-2">
               {item.highlights.map((highlight) => (
                 <span
                   key={highlight}
@@ -235,34 +229,24 @@ function ProjectCard({ item, index, itemWidth, trackItemOffset, x }) {
               ))}
             </div>
 
-            {/* Title */}
-            <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
+            <AnimatedHeading
+              as="h2"
+              className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl"
+            >
               {item.title}
-            </h2>
+            </AnimatedHeading>
 
-            {/* Description */}
-            <p className="mt-4 max-w-sm text-sm leading-7 text-white/60 md:text-base">
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/60 md:text-base lg:max-w-sm">
               {item.description}
             </p>
           </div>
 
-          {/* Bottom: View Project button */}
           <div className="mt-8">
-            <button
-              type="button"
-              className="group flex items-center gap-3 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white hover:text-black"
-            >
-              View Project
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:bg-black/10">
-                <FiArrowRight className="h-4 w-4" />
-              </span>
-            </button>
+            <Button label="VIEW PROJECT" size="compact" />
           </div>
         </div>
 
-        {/* ── RIGHT SIDE — Mockup/Image area ── */}
-        <div className="relative hidden items-center justify-center overflow-hidden p-6 md:flex md:p-8">
-
+        <div className="relative flex min-h-[250px] items-center justify-center overflow-hidden p-4 sm:min-h-[280px] sm:p-6 md:min-h-[320px] md:p-8 lg:min-h-0">
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -295,10 +279,10 @@ function ProjectCard({ item, index, itemWidth, trackItemOffset, x }) {
               <img
                 src={item.image}
                 alt={item.title}
-                className={`relative h-full w-full object-contain p-4 drop-shadow-[0_18px_34px_rgba(0,0,0,0.42)] md:p-6 ${item.imagePosition ?? "object-center"}`}
+                className={`relative h-full w-full object-contain p-3 drop-shadow-[0_18px_34px_rgba(0,0,0,0.42)] sm:p-4 md:p-6 ${item.imagePosition ?? "object-center"}`}
               />
             ) : (
-              <div className="flex h-full flex-col p-4 gap-3">
+              <div className="flex h-full flex-col gap-3 p-4">
                 <div className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
                   <div className="h-2 w-2 rounded-full bg-red-400/60" />
                   <div className="h-2 w-2 rounded-full bg-yellow-400/60" />
@@ -392,20 +376,15 @@ export default function OurProjects({
     return () => window.clearInterval(timer);
   }, [autoplay, autoplayDelay, isHovered, items.length, pauseOnHover]);
 
-  useEffect(() => {
-    if (activeIndex > items.length - 1) {
-      setActiveIndex(0);
-    }
-  }, [activeIndex, items.length]);
-
   const itemWidth = Math.max(viewportWidth || 0, 320);
   const trackItemOffset = itemWidth + GAP;
+  const currentIndex = activeIndex >= items.length ? 0 : activeIndex;
 
   useEffect(() => {
-    const controls = animate(x, -(activeIndex * trackItemOffset), SPRING_OPTIONS);
+    const controls = animate(x, -(currentIndex * trackItemOffset), SPRING_OPTIONS);
 
     return () => controls.stop();
-  }, [activeIndex, trackItemOffset, x]);
+  }, [currentIndex, trackItemOffset, x]);
 
   if (items.length === 0) {
     return null;
@@ -422,7 +401,7 @@ export default function OurProjects({
           : 0;
 
     if (direction === 0) {
-      animate(x, -(activeIndex * trackItemOffset), SPRING_OPTIONS);
+      animate(x, -(currentIndex * trackItemOffset), SPRING_OPTIONS);
       return;
     }
 
@@ -449,78 +428,77 @@ export default function OurProjects({
     setActiveIndex((current) => (current + 1) % items.length);
   };
 
- return (
-  <div
-    className="flex h-full flex-col shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
-    onMouseEnter={() => setIsHovered(true)}
-    onMouseLeave={() => setIsHovered(false)}
-  >
+  return (
     <div
-      ref={containerRef}
-      className="relative w-full flex-1 overflow-hidden rounded-[28px]"
+      className="flex h-full min-h-[640px] flex-col shadow-[0_24px_80px_rgba(0,0,0,0.45)] md:min-h-[720px] lg:min-h-0"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div
-        className="flex h-full"
-        drag="x"
-        dragConstraints={{
-          left: -trackItemOffset * Math.max(items.length - 1, 0),
-          right: 0,
-        }}
-        style={{
-          gap: `${GAP}px`,
-          perspective: 1400,
-          perspectiveOrigin: `${activeIndex * trackItemOffset + itemWidth / 2}px 50%`,
-          x,
-        }}
-        onDragEnd={handleDragEnd}
+      <div
+        ref={containerRef}
+        className="relative min-h-0 w-full flex-1 overflow-hidden rounded-[28px]"
       >
+        <motion.div
+          className="flex h-full"
+          drag="x"
+          dragConstraints={{
+            left: -trackItemOffset * Math.max(items.length - 1, 0),
+            right: 0,
+          }}
+          style={{
+            gap: `${GAP}px`,
+            perspective: 1400,
+            perspectiveOrigin: `${currentIndex * trackItemOffset + itemWidth / 2}px 50%`,
+            x,
+          }}
+          onDragEnd={handleDragEnd}
+        >
+          {items.map((item, index) => (
+            <ProjectCard
+              key={item.id}
+              item={item}
+              index={index}
+              itemWidth={itemWidth}
+              trackItemOffset={trackItemOffset}
+              x={x}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      <div className="mt-4 flex shrink-0 flex-wrap items-center justify-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          onClick={goToPrevious}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 text-white transition-colors duration-300 hover:bg-white hover:text-black"
+          aria-label="Show previous project"
+        >
+          <FiArrowLeft className="h-5 w-5" />
+        </button>
+
         {items.map((item, index) => (
-          <ProjectCard
+          <button
             key={item.id}
-            item={item}
-            index={index}
-            itemWidth={itemWidth}
-            trackItemOffset={trackItemOffset}
-            x={x}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            className={`h-2.5 rounded-full transition-all duration-300 ${
+              currentIndex === index
+                ? "w-10 bg-white"
+                : "w-2.5 bg-white/25 hover:bg-white/45"
+            }`}
+            aria-label={`Show project ${index + 1}`}
           />
         ))}
-      </motion.div>
-    </div>
 
-    {/* Navigation */}
-    <div className="mt-0 flex shrink-0 items-center justify-center gap-3 pt-1">
-      <button
-        type="button"
-        onClick={goToPrevious}
-        className="flex h-12 w-12 items-center justify-center rounded-full border border-white/12 hover:bg-white  text-white hover:text-black transition-colors duration-300"
-        aria-label="Show previous project"
-      >
-        <FiArrowLeft className="h-5 w-5" />
-      </button>
-
-      {items.map((item, index) => (
         <button
-          key={item.id}
           type="button"
-          onClick={() => setActiveIndex(index)}
-          className={`h-2.5 rounded-full transition-all duration-300 ${
-            activeIndex === index
-              ? "w-10 bg-white"
-              : "w-2.5 bg-white/25 hover:bg-white/45"
-          }`}
-          aria-label={`Show project ${index + 1}`}
-        />
-      ))}
-
-      <button
-        type="button"
-        onClick={goToNext}
-        className="flex h-12 w-12 items-center justify-center rounded-full border border-white/12 hover:bg-white text-white hover:text-black transition-colors duration-300"
-        aria-label="Show next project"
-      >
-        <FiArrowRight className="h-5 w-5" />
-      </button>
+          onClick={goToNext}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 text-white transition-colors duration-300 hover:bg-white hover:text-black"
+          aria-label="Show next project"
+        >
+          <FiArrowRight className="h-5 w-5" />
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
 }

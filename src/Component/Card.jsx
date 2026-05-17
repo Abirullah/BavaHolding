@@ -5,6 +5,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import AnimatedHeading from "./AnimatedHeading";
 
 const ROTATION_RANGE = 25;
 const HALF_ROTATION_RANGE = ROTATION_RANGE / 2;
@@ -91,7 +92,8 @@ function Card({ title, description, gradient }) {
         <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
 
         {/* Heading */}
-        <h2
+        <AnimatedHeading
+          as="h2"
           style={{
             transform: "translateZ(50px)",
           }}
@@ -104,7 +106,7 @@ function Card({ title, description, gradient }) {
           "
         >
           {title}
-        </h2>
+        </AnimatedHeading>
 
         {/* Description */}
         <p

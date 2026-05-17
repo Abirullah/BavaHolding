@@ -1,5 +1,5 @@
 import { motion, useTransform } from "framer-motion";
-import BavaLogo from "../public/Pasted image.png";
+import BavaLogo from "../../public/Pasted image.png";
 
 function HeroLogo({ scrollYProgress }) {
   const scaleOuter = useTransform(scrollYProgress, [0, 0.3, 0.55], [1, 3.2, 12]);
@@ -49,6 +49,8 @@ function HeroLogo({ scrollYProgress }) {
       />
       {/* LOGO */}
       <motion.img
+
+// ─── GooeyNav core ──────────────────
         src={BavaLogo}
         alt="logo"
         style={{ opacity: logoOpacity, scale: logoScale }}

@@ -42,7 +42,7 @@ const Cursor = () => {
     borderColor: color,
     boxShadow: `0 0 25px ${color}`,
   }}
-  className="w-16 h-16 rounded-full border-2 bg-white/5 backdrop-blur-md"
+  className="w-12 h-12 rounded-full border-2 bg-white/5 backdrop-blur-md"
 />
     </div>
   );

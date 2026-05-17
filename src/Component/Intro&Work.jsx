@@ -1,4 +1,13 @@
-import { motion, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import AnimatedHeading from "./AnimatedHeading";
+import BubbleTextGenerator from "./BubbleText";
+import WaterDropGrid from "./UnderHersection";
+import HeroLogo from "./HeroLogo";
+import Button from "./Button";
+import { SECTION_IDS } from "../navigation";
+
+import Astronote from '../../public/Astronote.jpg'
 
 const tags = [
   "AI-powered coding",
@@ -12,11 +21,7 @@ const aboutText1 =
   "At BAVE, we harness the power of artificial intelligence to revolutionize the way web and mobile applications are built. Founded with a vision to blend human creativity with cutting-edge AI technology, we deliver smarter, faster, and more efficient digital solutions tailored to your unique business needs.";
 
 const aboutText2 =
-  "Our team of expert developers and AI specialists work together to automate complex processes, optimize user experiences, and build scalable platforms that help businesses thrive in a digital-first world. With a commitment to innovation and quality, we empower our clients to stay ahead of the curve through intelligent automation and data-driven design.";
-
-const sectionFont = {
-  fontFamily: "'Georgia', 'Times New Roman', serif",
-};
+  "Our team of expert developers and AI specialists work together to automate complex processes, optimize user experiences, and build scalable platforms that help businesses thrive in a digital-first world.";
 
 const textureStyle = {
   backgroundImage:
@@ -26,88 +31,59 @@ const textureStyle = {
   opacity: 0.12,
 };
 
-function IntroArtwork() {
+/* ── glowing orb blob ───────────────────────────────────── */
+function GlowOrb({ style }) {
   return (
     <div
-      className="h-full w-full"
-      style={{
-        background:
-          "linear-gradient(135deg, #1a1a1a 0%, #0f1f10 40%, #1a1208 70%, #0a0a0a 100%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse at 30% 20%, rgba(60,90,30,0.45) 0%, transparent 55%), radial-gradient(ellipse at 70% 70%, rgba(80,50,10,0.3) 0%, transparent 50%)",
-        }}
-      />
+      className="pointer-events-none absolute rounded-full blur-[80px]"
+      style={style}
+    />
+  );
+}
 
-      {[
-        [20, 40],
-        [150, 30],
-        [30, 160],
-        [155, 170],
-        [90, 15],
-        [10, 100],
-      ].map(([x, y], i) => (
-        <div
-          key={i}
-          style={{
-            position: "absolute",
-            left: x,
-            top: y,
-            width: 7,
-            height: 7,
-            borderRadius: "50%",
-            background: "#c0392b",
-            opacity: 0.7,
-            boxShadow: "0 0 6px 2px rgba(192,57,43,0.4)",
-          }}
+/* ── artwork panel ──────────────────────────────────────── */
+function IntroArtwork() {
+  return (
+    <div className="relative h-full w-full overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))]">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.08),transparent_36%,rgba(255,255,255,0.03))]" />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
+
+      <div className="absolute inset-0">
+        <img
+          src={Astronote}
+          alt="Astronaut artwork"
+          className="h-full w-full rounded-[22px] object-cover object-center"
         />
-      ))}
+      </div>
+
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,6,0.04),transparent_38%,rgba(6,6,6,0.34))]" />
     </div>
   );
 }
 
-function TagPills({
-  activeTag,
-  setActiveTag,
-  interactive = true,
-  compact = false,
-}) {
+/* ── tag pills ──────────────────────────────────────────── */
+function TagPills({ activeTag, setActiveTag, interactive = true }) {
   return (
-    <div className="mt-4 flex flex-wrap justify-center gap-3">
-      {tags.map((tag, index) => {
-        const isActive = activeTag === index;
-
+    <div className="flex flex-wrap justify-center gap-2.5">
+      {tags.map((tag, i) => {
+        const isActive = activeTag === i;
         return (
           <button
             key={tag}
             type="button"
-            onClick={
-              interactive
-                ? () => setActiveTag(isActive ? null : index)
-                : undefined
-            }
-            className="rounded-full border text-sm font-medium transition-all duration-300"
+            onClick={interactive ? () => setActiveTag(isActive ? null : i) : undefined}
+            className="rounded-full border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.14em] text-white/75 shadow-[0_10px_24px_rgba(0,0,0,0.16)] transition-all duration-300"
             style={{
-              ...sectionFont,
-              padding: compact ? "0.45rem 1rem" : "0.55rem 1.25rem",
+              fontFamily: "'Georgia', serif",
               background: isActive
-                ? "rgba(255,255,255,0.12)"
+                ? "linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08))"
                 : "rgba(255,255,255,0.04)",
               border: isActive
-                ? "1px solid rgba(255,255,255,0.4)"
-                : "1px solid rgba(255,255,255,0.18)",
-              color: isActive ? "#fff" : "#aaa",
-              letterSpacing: "0.01em",
+                ? "1px solid rgba(255,255,255,0.35)"
+                : "1px solid rgba(255,255,255,0.12)",
+              color: isActive ? "#fff" : "rgba(255,255,255,0.72)",
               cursor: interactive ? "pointer" : "default",
+              transform: isActive ? "translateY(-1px)" : "translateY(0px)",
             }}
           >
             {tag}
@@ -118,333 +94,266 @@ function TagPills({
   );
 }
 
-function IntroHeader({
-  activeTag,
-  setActiveTag,
-  interactive = true,
-  compact = false,
-}) {
-  return (
-    <section
-      className={
-        compact
-          ? "px-5 pb-6 pt-10 text-center md:px-8 md:pb-8 md:pt-14"
-          : "px-6 pb-16 pt-24 text-center" 
-      }
-    >
-      <h1
-        className={
-          compact
-            ? "mb-4 text-3xl font-light leading-none text-white md:text-5xl"
-            : "mb-6 text-5xl font-light leading-none text-white md:text-7xl"
-        }
-        style={{
-          ...sectionFont,
-          letterSpacing: "-0.02em",
-        }}
-      >
-        WHO WE{" "}
-        <span
-          className="font-black"
-          style={{
-            background: "linear-gradient(90deg, #fff 0%, #aaa 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          ARE
-        </span>{" "}
-        & WHAT WE{" "}
-        <span
-          className="font-black"
-          style={{
-            background: "linear-gradient(90deg, #fff 0%, #aaa 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          DO
-        </span>
-      </h1>
-
-      <p
-        className={
-          compact
-            ? "mx-auto max-w-5xl text-xs leading-6 text-gray-400 md:text-sm"
-            : "mx-auto max-w-5xl text-base leading-relaxed text-gray-400 md:text-lg"
-        }
-        style={sectionFont}
-      >
-        A cutting-edge AI technology company dedicated to revolutionizing web and app development through intelligent automation. We create innovative, scalable digital products faster and smarter by harnessing the power of artificial intelligence.
-      </p>
-
-      <div className={compact ? "mb-6 mt-6" : "mb-10 mt-14"}>
-        <span
-          className={
-            compact
-              ? "text-sm font-semibold tracking-wide text-white md:text-base"
-              : "text-lg font-semibold tracking-wide text-white md:text-xl"
-          }
-          style={{ ...sectionFont, letterSpacing: "0.04em" }}
-        >
-          Over 20+ AI-powered projects delivered
-        </span>
-
-        <div
-          className="mx-auto mt-3"
-          style={{
-            width: 60,
-            height: 1,
-            background:
-              "linear-gradient(90deg, transparent, #555, transparent)",
-          }}
-        />
-      </div>
-
-      <TagPills
-        activeTag={activeTag}
-        setActiveTag={setActiveTag}
-        interactive={interactive}
-        compact={compact}
-      />
-    </section>
-  );
-}
-
-function AboutSection({ compact = false }) {
-  return (
-    <section className={compact ? "px-5 pb-8 md:px-8" : "px-6 pb-24"}>
-      <div
-        className={
-          compact
-            ? "grid gap-4 md:grid-cols-[250px_minmax(0,1fr)] md:items-stretch"
-            : "flex flex-col items-stretch gap-8 md:flex-row"
-        }
-      >
-        <div
-          className="overflow-hidden rounded-2xl"
-          style={{
-            width: "100%",
-            minHeight: compact ? 220 : 320,
-            maxWidth: compact ? "100%" : 380,
-            background: "#161616",
-            border: "1px solid rgba(255,255,255,0.07)",
-            position: "relative",
-          }}
-        >
-          <IntroArtwork />
-        </div>
-
-        <div
-          className={
-            compact
-              ? "flex flex-col justify-center rounded-2xl p-5 md:p-6"
-              : "flex flex-1 flex-col justify-center rounded-2xl p-8"
-          }
-          style={{
-            background: "rgba(255,255,255,0.045)",
-            border: "1px solid rgba(255,255,255,0.09)",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.22)",
-          }}
-        >
-          <h2
-            className={
-              compact
-                ? "mb-4 text-xl font-bold text-white md:text-2xl"
-                : "mb-5 text-2xl font-bold text-white"
-            }
-            style={{ ...sectionFont, letterSpacing: "-0.01em" }}
-          >
-            About Us
-          </h2>
-
-          <p
-            className={
-              compact
-                ? "mb-3 text-xs leading-6 text-gray-400 md:text-sm"
-                : "mb-4 text-sm leading-relaxed text-gray-400"
-            }
-            style={sectionFont}
-          >
-            {aboutText1}
-          </p>
-
-          <p
-            className={
-              compact
-                ? "text-xs leading-6 text-gray-500 md:text-sm"
-                : "text-sm leading-relaxed text-gray-500"
-            }
-            style={sectionFont}
-          >
-            {aboutText2}
-          </p>
-
-          <div className="mt-8">
-            <button
-              type="button"
-              className="rounded-full px-7 py-3 text-sm font-semibold text-black transition-all duration-300"
-              style={{
-                background: "linear-gradient(90deg, #e8e8e8, #fff)",
-                ...sectionFont,
-                letterSpacing: "0.04em",
-              }}
-            >
-              Learn More →
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function IntroWorkContent({
-  activeTag,
-  setActiveTag,
-  interactive = true,
-  compact = false,
-}) {
+/* ── stat chip ──────────────────────────────────────────── */
+function StatChip({ value, label }) {
   return (
     <div
-      className={
-        compact
-          ? "mx-auto w-full max-w-6xl"
-          : "mx-auto w-full max-w-5xl"
-      }
-      style={sectionFont}
+      className="flex flex-col items-center gap-0.5 rounded-xl px-4 py-2.5"
+      style={{
+        background: "rgba(255,255,255,0.05)",
+        border: "1px solid rgba(255,255,255,0.09)",
+      }}
     >
-      <IntroHeader
-        activeTag={activeTag}
-        setActiveTag={setActiveTag}
-        interactive={interactive}
-        compact={compact}
-      />
-
-      <AboutSection compact={compact} />
+      <span
+        className="text-lg font-black text-white leading-none"
+        style={{ fontFamily: "'Georgia', serif" }}
+      >
+        {value}
+      </span>
+      <span
+        className="text-[10px] text-gray-500 uppercase tracking-widest"
+        style={{ fontFamily: "'Georgia', serif" }}
+      >
+        {label}
+      </span>
     </div>
   );
 }
 
-export function IntroTransition({ scrollYProgress }) {
-
-
-const shellOpacity = useTransform(
-  scrollYProgress,
-  [0.22, 0.34, 0.90, 1.0],  
-  [1, 1, 1, 0],
-  { clamp: true }
-);
-
-const shellScale = useTransform(
-  scrollYProgress,
-  [0.34, 0.60],             
-  [0.12, 1],
-  { clamp: true }
-);
-
-const shellY = useTransform(
-  scrollYProgress,
-  [0.34, 0.60],
-  [300, 0],
-  { clamp: true }
-);
-
-const shellRotate = useTransform(
-  scrollYProgress,
-  [0.34, 0.47, 0.60],
-  [0, -1.2, 0],
-  { clamp: true }
-);
-
-const shellRadius = useTransform(
-  scrollYProgress,
-  [0.34, 0.60],
-  ["999px", "0px"],
-  { clamp: true }
-);
-
-const artOpacity = useTransform(
-  scrollYProgress,
-  [0.34, 0.46],
-  [1, 0],
-  { clamp: true }
-);
-
-const contentOpacity = useTransform(
-  scrollYProgress,
-  [0.44, 0.60],
-  [0, 1],
-  { clamp: true }
-);
-
-const contentY = useTransform(
-  scrollYProgress,
-  [0.44, 0.60],
-  [60, 0],
-  { clamp: true }
-);
-
-const backdropOpacity = useTransform(
-  scrollYProgress,
-  [0.22, 0.34],
-  [0, 1],
-  { clamp: true }
-);
-
+/* ── main content (compact = inside scroll shell) ───────── */
+function IntroWorkContent({ activeTag, setActiveTag, interactive = true, compact = false }) {
   return (
-    <div className="pointer-events-none fixed inset-0 z-[35] ">
-
-      {/* FULL SOLID BACKGROUND */}
-      <motion.div
-        style={{ opacity: backdropOpacity }}
-        className="absolute inset-0 bg-black"
+    <div
+      className="relative w-full h-full overflow-y-auto"
+      style={{ fontFamily: "'Georgia', serif" }}
+    >
+      {/* Background glow blobs */}
+      <GlowOrb
+        style={{
+          width: 420,
+          height: 420,
+          top: -80,
+          left: "30%",
+          background: "rgba(255,255,255,0.025)",
+        }}
       />
 
-      <motion.div
-        style={{
-          opacity: shellOpacity,
-          scale: shellScale,
-          y: shellY,
-          rotate: shellRotate,
-          borderRadius: shellRadius,
-          transformOrigin: "50% 88%",
-          willChange: "transform, opacity, border-radius",
-        }}
-        className="absolute inset-0 overflow-hidden border border-white/10 bg-[#0a0a0a] shadow-[0_40px_140px_rgba(0,0,0,0.52)]"
+      <div
+        className={`
+          relative z-10 mx-auto flex h-full w-full flex-col
+          ${compact ? "max-w-6xl px-5 py-8 sm:px-7 lg:px-10" : "max-w-6xl px-6 py-14 md:px-10"}
+        `}
       >
-        <div className="absolute inset-0" style={textureStyle} />
+        {/* ── TOP: heading + descriptor ── */}
+        <div className="mb-4 md:mt-12 text-center">
 
-        {/* INTRO ART */}
-        <motion.div
-          style={{ opacity: artOpacity }}
-          className="absolute inset-0"
-        >
-          <IntroArtwork />
+          <AnimatedHeading
+            as="h1"
+            className={`font-light leading-none text-white ${compact ? "text-4xl md:text-5xl" : "text-6xl"}`}
+            style={{ letterSpacing: "-0.025em" }}
+          >
+            WHO WE{" "}
+            <em
+              className="not-italic font-black"
+              style={{
+                background: "linear-gradient(95deg, #fff 0%, #666 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              ARE
+            </em>
+            <br />
+            &amp; WHAT WE{" "}
+            <em
+              className="not-italic font-black"
+              style={{
+                background: "linear-gradient(95deg, #fff 0%, #666 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              DO
+            </em>
+          </AnimatedHeading>
 
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.15),transparent_35%,rgba(0,0,0,0.7))]" />
-        </motion.div>
+          <p className="mx-auto mt-4 max-w-xl  leading-7 text-gray-400">
+            A cutting-edge AI technology company dedicated to revolutionizing web
+            and app development through intelligent automation. We create
+            innovative, scalable digital products faster and smarter.
+          </p>
+        </div>
 
-        {/* FINAL CONTENT */}
-        <motion.div
-          style={{
-            opacity: contentOpacity,
-            y: contentY,
-          }}
-          className="absolute inset-0 overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-[#0a0a0a]" />
+        {/* ── STATS ROW ── */}
+        <div className="mb-4 flex justify-center gap-3 flex-wrap">
+          <StatChip value="20+" label="Projects Delivered" />
+          <StatChip value="100%" label="AI-Powered" />
+          <StatChip value="∞" label="Scalability" />
+        </div>
 
-          <div className="relative flex h-full items-center">
-            <IntroWorkContent
-              activeTag={null}
-              setActiveTag={() => {}}
-              interactive={false}
-              compact
+        {/* ── TAGS ── */}
+        <div className="mb-6">
+          <TagPills activeTag={activeTag} setActiveTag={setActiveTag} interactive={interactive} />
+        </div>
+
+        {/* ── ABOUT GRID ── */}
+        <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-[minmax(320px,0.95fr)_minmax(420px,1.05fr)] xl:gap-7">
+          {/* Image / artwork card */}
+          <div
+            className="relative overflow-hidden rounded-[28px] shadow-[0_28px_70px_rgba(0,0,0,0.24)]"
+          >
+            <IntroArtwork />
+          </div>
+
+          {/* Text card */}
+          <div
+            className="relative flex flex-col justify-between overflow-hidden rounded-[28px] p-6 sm:p-7 lg:p-8 shadow-[0_28px_70px_rgba(0,0,0,0.24)]"
+            style={{
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.09)",
+              minHeight: compact ? 320 : 380,
+            }}
+          >
+
+
+            <div>
+              <div className="mb-3 flex items-center gap-2">
+                <span
+                  className="h-px flex-1"
+                  style={{ background: "linear-gradient(90deg, #fff2, transparent)" }}
+                />
+                <span className="text-[10px] uppercase tracking-[0.18em] text-gray-600">
+                  About Us
+                </span>
+                <span
+                  className="h-px flex-1"
+                  style={{ background: "linear-gradient(90deg, transparent, #fff2)" }}
+                />
+              </div>
+
+              <AnimatedHeading
+                as="h2"
+                className="mb-5 text-2xl font-bold text-white"
+                style={{ letterSpacing: "-0.01em" }}
+              >
+                Building the future
+              </AnimatedHeading>
+
+              <p className="mb-4 text-sm leading-7 text-gray-400">
+                {aboutText1}
+              </p>
+              <p className="text-sm leading-7 text-gray-500">
+                {aboutText2}
+              </p>
+            </div>
+
+            {/* CTA row */}
+            <Button/>
+
+            {/* Subtle bottom glow */}
+            <div
+              className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 rounded-b-2xl"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(255,255,255,0.04), transparent)",
+              }}
             />
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 }
+
+/* ══════════════════════════════════════════════════════════
+   MAIN EXPORT — scroll-animated wrapper unchanged
+═══════════════════════════════════════════════════════════ */
+export function IntroTransition() {
+  const sectionRef = useRef(null);
+  const [activeTag, setActiveTag] = useState(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const shellScale  = useTransform(scrollYProgress, [0.34, 0.6],  [0.12, 1],    { clamp: true });
+  const shellY      = useTransform(scrollYProgress, [0.34, 0.6],  [300, 0],     { clamp: true });
+  const shellRotate = useTransform(scrollYProgress, [0.34, 0.47, 0.6], [0, -1.2, 0], { clamp: true });
+  const shellRadius = useTransform(scrollYProgress, [0.34, 0.6],  ["999px", "0px"], { clamp: true });
+  const artOpacity  = useTransform(scrollYProgress, [0.34, 0.46], [1, 0],       { clamp: true });
+  const contentOpacity = useTransform(scrollYProgress, [0.30, 0.42], [0, 1],    { clamp: true });
+  const contentY    = useTransform(scrollYProgress, [0.42, 0.55], [60, 0],      { clamp: true });
+  const shellOpacity = useTransform(scrollYProgress, [0.22, 0.34, 0.92, 1], [1, 1, 1, 0], { clamp: true });
+  const backdropOpacity = useTransform(scrollYProgress, [0.22, 0.34], [0, 1],   { clamp: true });
+
+  return (
+    <section ref={sectionRef} className="relative h-[600vh]">
+      <div
+        id={SECTION_IDS.about}
+        className="absolute left-0 top-[210vh] h-px w-px"
+        style={{ scrollMarginTop: "112px" }}
+      />
+
+      <div className="sticky top-0 h-screen overflow-hidden isolate">
+        <WaterDropGrid />
+
+        <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+          <BubbleTextGenerator />
+        </div>
+
+        <HeroLogo scrollYProgress={scrollYProgress} />
+
+        <div className="pointer-events-none fixed inset-0 z-[35]">
+          <motion.div
+            style={{ opacity: backdropOpacity }}
+            className="absolute inset-0 bg-black"
+          />
+
+          <motion.div
+            style={{
+              opacity: shellOpacity,
+              scale: shellScale,
+              y: shellY,
+              rotate: shellRotate,
+              borderRadius: shellRadius,
+              transformOrigin: "50% 88%",
+              willChange: "transform, opacity, border-radius",
+            }}
+            className="absolute inset-0 overflow-hidden border border-white/10 bg-[#0a0a0a] shadow-[0_40px_140px_rgba(0,0,0,0.52)]"
+          >
+            <div className="absolute inset-0" style={textureStyle} />
+
+            {/* artwork shown before content fades in */}
+            <motion.div
+              style={{ opacity: artOpacity }}
+              className="absolute inset-0"
+            >
+              <IntroArtwork />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.15),transparent_35%,rgba(0,0,0,0.7))]" />
+            </motion.div>
+
+            {/* main content */}
+            <motion.div
+              style={{ opacity: contentOpacity, y: contentY }}
+              className="pointer-events-auto absolute inset-0 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-[#0a0a0a]" />
+
+              <div className="relative flex h-full items-center pointer-events-auto">
+                <IntroWorkContent
+                  activeTag={activeTag}
+                  setActiveTag={setActiveTag}
+                  interactive
+                  compact
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default IntroTransition;
